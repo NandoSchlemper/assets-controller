@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func helloHandler(w http.ResponseWriter) {
+func HelloHandler(w http.ResponseWriter, _r *http.Response) {
     fmt.Print("Hello!")
     io.WriteString(w, "Hello in page ihu")
 }
