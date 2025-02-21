@@ -17,13 +17,19 @@ function HomeScreen() {
 // Ser usadas na parte da navegação
 const RootStack = createNativeStackNavigator({
     screens: {
-        Home: HomeScreen
+        Home: { 
+        screen: HomeScreen,
+        options: {
+            title: 'Overview'
+            }
+        },
     }
 })
 
 // Aqui é a instancia da navegação estática baseado no Stack que criamos.
 const Navigation = createStaticNavigation(RootStack)
 
+// Exportando navegação do Expo por padrão, hehe
 export default function App() {
     return <Navigation />
 }
