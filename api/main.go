@@ -1,6 +1,7 @@
 package main
 
 import (
+	"assets/handler"
 	"fmt"
 	"net/http"
 )
@@ -24,6 +25,10 @@ func (s *ServerHttp) run() {
 
 func main() {
     mux1 := http.NewServeMux()
+
+    /* Handlers */
+    mux1.Handle("/", handler.HelloHandler)
+
     server := NewHttpServer(":8080", mux1)
     server.run()
 }
