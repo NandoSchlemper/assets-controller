@@ -8,14 +8,10 @@ import (
 
 var myUltraSecretHyperKey = []byte("lol")
 
-func generateJwt() (string, error) {
-    token := jwt.New(jwt.SigningMethodHS256)
-    payload := token.Claims.(jwt.MapClaims)
-
-    /* token generation */
-
-    // fazer o modelo do user payload aqui pra meter o dale
-    payload["user"] = "123" // for god's sake, its just an example 🙏
+func GenerateJwt(payload any) (string, error) {
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+        "payload": payload, 
+    })
 
     tokenString, err := token.SignedString(myUltraSecretHyperKey)
 
@@ -27,11 +23,12 @@ func generateJwt() (string, error) {
     return tokenString, nil
 }
 
-func validateJwt(tokenString string) (*jwt.Token, error) {
+
+func ValidateJwt(tokenString string) (*jwt.Token, error) {
     token, err := jwt.Parse(
-        tokenString, func(token *jwt.Token) (interface{}, error) {
+        tokenString, func(token *jwt.Token) (any, error) {
             if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-                return nil, fmt.Errorf("Metodo de Assinatura Inesperado; %v", token.Header["alg"])
+                return nil, fmt.Errorf("Metodo de Assinatura errado; %v", token.Header["alg"])
             }
             return myUltraSecretHyperKey, nil
         },
